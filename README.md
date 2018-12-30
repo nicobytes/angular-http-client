@@ -1,27 +1,157 @@
-# AngularHttpClient
+````
+ng g service services/task
+ng g interface interfaces/task
+````
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.1.
+````
+export interface Task {
+  userId: string;
+  id: string;
+  title: string;
+  completed: boolean;
+}
+````
 
-## Development server
+````
+import { HttpClientModule } from '@angular/common/http';
+````
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+````
+import { HttpClient } from '@angular/common/http';
 
-## Code scaffolding
+import { Task } from './../interfaces/task.model';
+````
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+````
+getAllTasks() {
+  const path = 'https://jsonplaceholder.typicode.com/todos';
+  return this.http.get<Task[]>(path);
+}
+````
 
-## Build
+````
+import { TaskService } from './services/task.service';
+````
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+````
+getAllTasks() {
+  this.taskService.getAllTasks()
+  .subscribe(todos => {
+    console.log(todos);
+  });
+}
+````
 
-## Running unit tests
+````
+<button (click)="getAllTasks()">getAllTasks()</button>
+````
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+````
+getAllTasks() {
+  this.taskService.getAllTasks()
+  .subscribe(todos => {
+    console.log(todos);
+  });
+}
+````
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+````
+getTask(id: string) {
+  const path = `https://jsonplaceholder.typicode.com/todos/${id}`;
+  return this.http.get<Task>(path);
+}
+````
 
-## Further help
+```
+getTask() {
+  this.taskService.getTask('1')
+  .subscribe(todo => {
+    console.log(todo);
+  });
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+````
+<button (click)="getTask()">getTask()</button>
+````
+
+````
+private api = 'https://jsonplaceholder.typicode.com';
+````
+
+````
+updateTask(task: Task) {
+  const path = `${this.api}/todos/${task.id}`;
+  return this.http.put<Task>(path, task);
+}
+````
+
+````
+updateTask() {
+  const task = {
+    id: '1',
+    userId: '1',
+    title: 'change title',
+    completed: true
+  };
+  this.taskService.updateTask(task)
+  .subscribe(todo => {
+    console.log(todo);
+  });
+}
+````
+
+````
+<button (click)="updateTask()">updateTask()</button>
+````
+
+````
+deleteTask(id: string) {
+  const path = `${this.api}/todos/${id}`;
+  return this.http.delete(path);
+}
+````
+
+````
+deleteTask() {
+  this.taskService.deleteTask('1')
+  .subscribe((data) => {
+    console.log(data);
+  });
+}
+````
+
+````
+<button (click)="deleteTask()">deleteTask()</button>
+````
+
+````
+createTask(task: Task) {
+  const path = `${this.api}/todos`;
+  return this.http.post(path, task);
+}
+````
+
+````
+createTask() {
+  const task = {
+    id: '12',
+    userId: '1',
+    title: 'change title',
+    completed: true
+  };
+  this.taskService.createTask(task)
+  .subscribe((newTask) => {
+    console.log(newTask);
+  });
+}
+````
+
+````
+<button (click)="createTask()">createTask()</button>
+````
+
+
+
+
