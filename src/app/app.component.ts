@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-
 import { TaskService } from './services/task.service';
+
 
 @Component({
   selector: 'app-root',
@@ -16,23 +16,35 @@ export class AppComponent {
 
   getAllTasks() {
     this.taskService.getAllTasks()
-    .subscribe(todos => {
-      console.log(todos);
+    .subscribe(tasks => {
+      console.log(tasks);
     });
   }
 
   getTask() {
-    this.taskService.getTask('1')
-    .subscribe(todo => {
-      console.log(todo);
+    this.taskService.getTask('2')
+    .subscribe(task => {
+      console.log(task);
+    });
+  }
+
+  createTask() {
+    const task = {
+      userId: '1',
+      title: 'change title',
+      completed: true
+    };
+    this.taskService.createTask(task)
+    .subscribe((newTask) => {
+      console.log(newTask);
     });
   }
 
   updateTask() {
     const task = {
-      id: '1',
+      id: '200',
       userId: '1',
-      title: 'change title',
+      title: 'por otro titulo',
       completed: true
     };
     this.taskService.updateTask(task)
@@ -48,17 +60,5 @@ export class AppComponent {
     });
   }
 
-  createTask() {
-    const task = {
-      id: '12',
-      userId: '1',
-      title: 'change title',
-      completed: true
-    };
-    this.taskService.createTask(task)
-    .subscribe((newTask) => {
-      console.log(newTask);
-    });
-  }
 
 }

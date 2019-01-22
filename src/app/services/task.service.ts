@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+<<<<<<< HEAD
 import { Task } from './../interfaces/task.model';
+=======
+import { Task } from './../interfaces/task';
+>>>>>>> rest-api
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +19,18 @@ export class TaskService {
   ) { }
 
   getAllTasks() {
-    const path = `${this.api}/todos`;
+    const path = `${this.api}/todos/`;
     return this.http.get<Task[]>(path);
   }
 
   getTask(id: string) {
     const path = `${this.api}/todos/${id}`;
     return this.http.get<Task>(path);
+  }
+
+  createTask(task: Task) {
+    const path = `${this.api}/todos`;
+    return this.http.post<Task>(path, task);
   }
 
   updateTask(task: Task) {
@@ -33,11 +42,4 @@ export class TaskService {
     const path = `${this.api}/todos/${id}`;
     return this.http.delete(path);
   }
-
-  createTask(task: Task) {
-    const path = `${this.api}/todos`;
-    return this.http.post(path, task);
-  }
-
-
 }
